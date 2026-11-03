@@ -32,8 +32,9 @@ async function refresh() {
     ]);
     render(tasks);
     const n = active.length;
-    counter.textContent = `${n} tâche${n > 1 ? "s" : ""} restante${n > 1 ? 
-"s" : ""}`;
+    counter.textContent = `${n} tâche${n > 1 ? "s" : ""} restante${
+      n > 1 ? "s" : ""
+    }`;
     showError("");
   } catch (err) {
     showError(err.message);
@@ -55,3 +56,17 @@ function render(tasks) {
 }
 
 refresh();
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  try {
+    await request(API, {
+      method: "POST",
+      body: JSON.stringify({ title: input.value, priority: priority.value }),
+    });
+    input.value = "";
+    refresh();
+  } catch (err) {
+    showError(err.message);
+  }
+});
