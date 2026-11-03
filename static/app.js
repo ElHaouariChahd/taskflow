@@ -91,3 +91,12 @@ list.addEventListener("click", async (e) => {
     showError(err.message);
   }
 });
+
+filterButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    filterButtons.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
+    refresh();
+  });
+});
