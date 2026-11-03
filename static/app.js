@@ -70,3 +70,24 @@ form.addEventListener("submit", async (e) => {
     showError(err.message);
   }
 });
+
+list.addEventListener("click", async (e) => {
+  const li = e.target.closest("li");
+  if (!li) return;
+  const url = `${API}/${li.dataset.id}`;
+  try {
+    if (e.target.classList.contains("delete")) {
+      await request(url, { method: "DELETE" });
+    } else if (e.target.type === "checkbox") {
+      await request(url, {
+        method: "PATCH",
+        body: JSON.stringify({ done: e.target.checked }),
+      });
+    } else {
+      return;
+    }
+    refresh();
+  } catch (err) {
+    showError(err.message);
+  }
+});
